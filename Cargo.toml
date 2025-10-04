@@ -1,5 +1,5 @@
 [package]
-name = "explora_auth_proxy"
+name = "esplora_auth_proxy"
 version = "0.1.0"
 edition = "2024"
 
