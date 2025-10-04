@@ -123,31 +123,6 @@ builder.set_chain_source_esplora(
 
 The proxy adds the `Authorization` header upstream; your node doesn’t need to know about tokens.
 
-### Network switching
-
-Change `.env` (proxy) and LDK network accordingly:
-
-- **Mainnet**  
-  Proxy: `ESPLORA_UPSTREAM=https://enterprise.blockstream.info/api`  
-  LDK: `Network::Bitcoin`
-
-- **Testnet**  
-  Proxy: `ESPLORA_UPSTREAM=https://enterprise.blockstream.info/testnet/api`  
-  LDK: `Network::Testnet`
-
-- **Liquid**  
-  Proxy: `.../liquid/api` (or `.../liquidtestnet/api`)  
-  LDK: (still `Network::Bitcoin` for Lightning; Liquid is not a Lightning chain)
-
-Restart the proxy after changing `.env`.
-
-### Health check
-
-```bash
-curl http://127.0.0.1:3002/blocks/tip/height
-```
-
-If it returns a height (200), the node can sync via Esplora.
 
 ---
 
