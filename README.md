@@ -113,52 +113,6 @@ If you see:
 
 Point LDK Node at the local proxy so it treats it like a normal Esplora server. The proxy handles OAuth and injects `Authorization: Bearer …` for you.
 
-### Builder API (with headers-capable function)
-
-If your `ldk-node` has `set_chain_source_esplora_with_headers`:
-
-```rust
-use ldk_node::{Builder, bitcoin::Network, config::EsploraSyncConfig};
-use std::collections::HashMap;
-
-fn esplora_sync_cfg() -> EsploraSyncConfig {
-    EsploraSyncConfig {
-        batch_size: Some(25),
-        timeout: Some(core::time::Duration::from_secs(30)),
-        stop_gap: Some(2000),
-        ..Default::default()
-    }
-}
-
-fn build_node() -> ldk_node::Node {
-    let esplora_proxy = std::env::var("CHAIN_SOURCE_ESPLORA")
-        .unwrap_or_else(|_| "http://127.0.0.1:3002".into());
-
-    let mut builder = Builder::new();
-    builder
-        .set_network(Network::Bitcoin)
-        .set_storage_dir_path("/var/lib/pay_server".into())
-        .set_node_alias("my-node".into());
-
-    builder.set_chain_source_esplora_with_headers(
-        esplora_proxy,
-        HashMap::new(),
-        Some(esplora_sync_cfg()),
-    );
-
-    builder.build().expect("failed to build node")
-}
-```
-
-Set in `.env` for your pay server/binary:
-
-```dotenv
-CHAIN_SOURCE_ESPLORA=http://127.0.0.1:3002
-```
-
-### Older LDK Node (without the headers function)
-
-If your version only has `set_chain_source_esplora(server_url, sync_config)`, you can still use the proxy:
 
 ```rust
 builder.set_chain_source_esplora(
